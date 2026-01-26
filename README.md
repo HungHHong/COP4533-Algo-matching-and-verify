@@ -1,9 +1,9 @@
-# Programming Assignment X – <Title>
+# Programming Assignment 1 – <Matching and Verifying>
 
 ## Course
-COP XXXX – <Course Name>  
+COP 4533 – <Algorithm Abstraction and Design>  
 University of Florida
 
 ## Authors
 - Hung Hong (UFID: XXXXXXX)
-- Thyssen Nicholas (UFID: XXXXXXX)
+- Thyssen Nicholas (UFID: 19705329)
