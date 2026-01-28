@@ -1,11 +1,17 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int main() {
+struct MatchResult {
+    vector<vector<int>> hospPref;
+    vector<vector<int>> studentRank;
+    map<int,int> match; // hospital -> student
+};
+
+tuple<vector<vector<int>>,vector<vector<int>>> readInput(){
 
     // 1. read n
     int n;
-    if (!(cin >> n)) return 0; // base: do nothing if n = 0
+    if (!(cin >> n)) return {}; // base: do nothing if n = 0
 
     // 2. read hospital prefs list
     // hospPref[h][k] = kth student on hospital h's list (1 index)
@@ -27,6 +33,21 @@ int main() {
             studentRank[s][h] = k;
         }
     }
+    
+    // Tuple in which first value is hosp pref and second is stud pref.
+    tuple<vector<vector<int>>,vector<vector<int>>> ans(hospPref,studentRank);
+
+    return ans;
+
+}
+
+MatchResult matcher() {
+
+    tuple <vector<vector<int>>,vector<vector<int>>> input = readInput();
+    vector<vector<int>> hospPref=get<0>(input);
+    vector<vector<int>> studentRank=get<1>(input);
+
+    int n=hospPref.size()-1;
 
     // mark all hospitals free
     // 0 in h or s = unmatch
@@ -82,14 +103,21 @@ int main() {
         }
     }
     
+    map<int,int> ans;
+
     // after loop: print matching
     for (int h = 1; h <= n; h++) {
+        ans.emplace(h,hospitalMatch[h]);
         cout << h << " " << hospitalMatch[h] << "\n";
     }
 
-    return 0;
+    return {hospPref, studentRank, ans};
 }
 
+int main(){
+    matcher();
+    return 0;
+}
 // note:
 // - hospitals propose not students
 // - student chooses best hospital so far
