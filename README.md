@@ -8,3 +8,6 @@ University of Florida
 ## Authors
 - Hung Hong (UFID: 56253262)
 - Thyssen Nicholas (UFID: 19705329)
+
+Part A - Hong
+Part B - Nicholas
