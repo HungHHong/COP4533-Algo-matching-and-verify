@@ -42,7 +42,8 @@ scale-verifier: all
 		echo "Running verifier for n=$$n (no stdin input)"; \
 		./$(GEN) $$n > in.txt; \
 		./$(MATCHER) < in.txt > out.txt; \
-		/usr/bin/time -f "$$n,%e" ./$(VERIFIER) > /dev/null 2>> verifier_times.csv; \
+		cat in.txt out.txt | /usr/bin/time -f "$$n,%e" ./$(VERIFIER) > /dev/null 2>> verifier_times.csv; \ 
+		
 	done
 
 ## extra targets

@@ -33,7 +33,9 @@ int main(int argc, char** argv) {
 
     // generating hospital preference lists
     for (int h = 1; h <= n; h++) {
-        random_shuffle(prefs.begin(), prefs.end());
+        //Bug fix: random_shuffle causing error
+        static std::mt19937 rng(123);
+        std::shuffle(prefs.begin(), prefs.end(), rng);
 
         for (int i = 0; i < n; i++) {
             cout << prefs[i];
@@ -44,7 +46,9 @@ int main(int argc, char** argv) {
 
     // generating student preference lists
     for (int s = 1; s <= n; s++) {
-        random_shuffle(prefs.begin(), prefs.end());
+        //Bug fix: random_shuffle causing error
+        static std::mt19937 rng(123);
+        std::shuffle(prefs.begin(), prefs.end(), rng);
 
         for (int i = 0; i < n; i++) {
             cout << prefs[i];

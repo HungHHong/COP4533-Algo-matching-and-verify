@@ -116,7 +116,7 @@ MatchResult matcher() {
     auto end = chrono::high_resolution_clock::now();
     chrono::duration<double> elapsed = end - start;
     
-    cout << "Time taken: " << elapsed.count() << " seconds\n";
+    cerr << "Time taken: " << elapsed.count() << " seconds\n"; //change from cout to cerr to avoid messing up output
 
     return {hospPref, studentRank, ans};
 }
