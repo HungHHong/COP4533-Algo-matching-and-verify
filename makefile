@@ -27,6 +27,16 @@ clean:
 
 .PHONY: all clean example check gen taskc
 
+# Part C: Generate inputs and collect matcher timing data
+scalability: all
+	@echo "n,time" > matcher_times.csv
+	@for n in 1 2 4 8 16 32 64 128 256 512; do \
+		echo "Running matcher for n=$$n"; \
+		./$(GEN) $$n > in.txt; \
+		/usr/bin/time -f "$$n,%e" ./$(MATCHER) < in.txt > /dev/null 2>> matcher_times.csv; \
+	done
+
+
 ## extra targets
 # Build and run matcher on the example input
 example: all

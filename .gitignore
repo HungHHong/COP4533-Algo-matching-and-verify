@@ -18,3 +18,5 @@ plots/*.png
 
 # Compiled objects (if any)
 *.o
+
+*.csv
