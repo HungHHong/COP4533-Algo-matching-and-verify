@@ -23,12 +23,12 @@ $(GEN): $(SRC_DIR)/gen.cpp | $(BIN_DIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
 
 clean:
-	rm -rf $(BIN_DIR) *.out output.out in.txt out.txt
+	rm -rf $(BIN_DIR) *.out output.out in.txt out.txt matcher_times.csv verifier_times.csv
 
 .PHONY: all clean example check gen taskc
 
-# Part C: Generate inputs and collect matcher timing data
-scalability: all
+# Part C: Generate inputs and collect matcher, verifier timing data
+scale-matcher: all
 	@echo "n,time" > matcher_times.csv
 	@for n in 1 2 4 8 16 32 64 128 256 512; do \
 		echo "Running matcher for n=$$n"; \
@@ -36,6 +36,14 @@ scalability: all
 		/usr/bin/time -f "$$n,%e" ./$(MATCHER) < in.txt > /dev/null 2>> matcher_times.csv; \
 	done
 
+scale-verifier: all
+	@echo "n,time" > verifier_times.csv
+	@for n in 1 2 4 8 16 32 64 128 256 512; do \
+		echo "Running verifier for n=$$n (no stdin input)"; \
+		./$(GEN) $$n > in.txt; \
+		./$(MATCHER) < in.txt > out.txt; \
+		/usr/bin/time -f "$$n,%e" ./$(VERIFIER) > /dev/null 2>> verifier_times.csv; \
+	done
 
 ## extra targets
 # Build and run matcher on the example input
