@@ -11,3 +11,5 @@ University of Florida
 
 Part A - Hong
 Part B - Nicholas
+
+![Time VS Data Graph For Matcher Function](read_me_files/image.png)

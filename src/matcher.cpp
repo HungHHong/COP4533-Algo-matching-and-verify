@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 #include "common.hpp"
+#include <chrono>
 
 using namespace std;
 
@@ -40,8 +41,11 @@ tuple<vector<vector<int>>,vector<vector<int>>> readInput(){
 }
 
 MatchResult matcher() {
-
+    
     tuple <vector<vector<int>>,vector<vector<int>>> input = readInput();
+
+    auto start = chrono::high_resolution_clock::now();
+
     vector<vector<int>> hospPref=get<0>(input);
     vector<vector<int>> studentRank=get<1>(input);
 
@@ -108,6 +112,11 @@ MatchResult matcher() {
         ans.emplace(h,hospitalMatch[h]);
         cout << h << " " << hospitalMatch[h] << "\n";
     }
+
+    auto end = chrono::high_resolution_clock::now();
+    chrono::duration<double> elapsed = end - start;
+    
+    cout << "Time taken: " << elapsed.count() << " seconds\n";
 
     return {hospPref, studentRank, ans};
 }

@@ -8,6 +8,7 @@ int verifier() {
 
     MatchResult res;
 
+    auto start = chrono::high_resolution_clock::now();
 
     auto& hospPref = res.hospPref;
     auto& studentRank = res.studentRank;
@@ -92,6 +93,12 @@ int verifier() {
 
     //If we reached this fair, it must be a valid stable
     cout << "VALID STABLE" << endl;
+
+    auto end = chrono::high_resolution_clock::now();
+    chrono::duration<double> elapsed = end - start;
+    
+    cout << "Time taken: " << elapsed.count() << " seconds\n";
+
     return 0;
 }
 
