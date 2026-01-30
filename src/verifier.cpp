@@ -1,10 +1,18 @@
 #include <bits/stdc++.h>
-#include "matcher.cpp"
+//#include "matcher.cpp"
 using namespace std;
+
+//Duplicate struct def from matcher.cpp
+struct MatchResult {
+    vector<vector<int>> hospPref;
+    vector<vector<int>> studentRank;
+    map<int,int> match; // hospital -> student
+};
 
 int verifier() {
 
-    MatchResult res = matcher();
+    MatchResult res;
+
 
     auto& hospPref = res.hospPref;
     auto& studentRank = res.studentRank;

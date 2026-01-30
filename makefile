@@ -22,3 +22,13 @@ clean:
 	rm -rf $(BIN_DIR) *.out output.out
 
 .PHONY: all clean
+
+## extra targets
+# Build and run matcher on the example input
+example: all
+	./$(MATCHER) < data/example.in > output.out
+
+# Build and run verifier on example output
+check: example
+	./$(VERIFIER)
+
