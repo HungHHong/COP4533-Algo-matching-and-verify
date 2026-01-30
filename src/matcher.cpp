@@ -4,8 +4,6 @@
 
 using namespace std;
 
-
-
 tuple<vector<vector<int>>,vector<vector<int>>> readInput(){
 
     // 1. read n
@@ -17,7 +15,8 @@ tuple<vector<vector<int>>,vector<vector<int>>> readInput(){
     vector<vector<int>> hospPref(n + 1, vector<int>(n + 1));
     for (int h = 1; h <= n; h++) {
         for (int k = 1; k <= n; k++) {
-            cin >> hospPref[h][k];
+            // edge case: Ensure input file has spaces between integers
+            if (!(cin >> hospPref[h][k])) break; 
         }
     }
 
@@ -28,7 +27,7 @@ tuple<vector<vector<int>>,vector<vector<int>>> readInput(){
     for (int s = 1; s <= n; s++) {
         for (int k = 1; k <= n; k++) {
             int h;
-            cin >> h;
+            if (!(cin >> h)) break;
             studentRank[s][h] = k;
         }
     }
@@ -49,6 +48,7 @@ MatchResult matcher() {
     vector<vector<int>> hospPref=get<0>(input);
     vector<vector<int>> studentRank=get<1>(input);
 
+    if (hospPref.empty()) return {}; 
     int n=hospPref.size()-1;
 
     // mark all hospitals free
@@ -105,11 +105,11 @@ MatchResult matcher() {
         }
     }
     
-    map<int,int> ans;
+    map<int,int> ans_map;
 
     // after loop: print matching
     for (int h = 1; h <= n; h++) {
-        ans.emplace(h,hospitalMatch[h]);
+        ans_map.emplace(h,hospitalMatch[h]);
         cout << h << " " << hospitalMatch[h] << "\n";
     }
 
@@ -118,7 +118,7 @@ MatchResult matcher() {
     
     cerr << "Time taken: " << elapsed.count() << " seconds\n"; //change from cout to cerr to avoid messing up output
 
-    return {hospPref, studentRank, ans};
+    return {hospPref, studentRank, ans_map};
 }
 
 int main(){
@@ -126,6 +126,6 @@ int main(){
     return 0;
 }
 // note:
-// - hospitals propose not students
-// - student chooses best hospital so far
+// - hospitals propose not students 
+// - student chooses best hospital so far 
 // - eventually no hospital can improve

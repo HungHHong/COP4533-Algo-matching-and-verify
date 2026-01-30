@@ -27,6 +27,20 @@ clean:
 
 .PHONY: all clean example check gen taskc
 
+
+
+## extra targets
+## Part A & B: Build and run matcher and verifier on example input
+## Build and run matcher on the example input
+example: all
+	./$(MATCHER) < data/example.in > result/match.out
+
+# Build and run verifier on example output
+check: all
+	./$(MATCHER) < data/example.in > result/match.out
+	( cat data/example.in; echo; cat result/match.out ) | ./$(VERIFIER)
+
+
 # Part C: Generate inputs and collect matcher, verifier timing data
 scale-matcher: all
 	@echo "n,time" > matcher_times.csv
@@ -44,14 +58,3 @@ scale-verifier: all
 		./$(MATCHER) < in.txt > out.txt; \
 		cat in.txt out.txt | /usr/bin/time -f "$$n,%e" ./$(VERIFIER) > /dev/null 2>> verifier_times.csv; \
 	done
-
-
-## extra targets
-# Build and run matcher on the example input
-example: all
-	./$(MATCHER) < data/example.in > result/match.out
-
-# Build and run verifier on example output
-check: all
-	./$(MATCHER) < data/example.in > out.txt
-	cat data/example.in out.txt | ./$(VERIFIER)
