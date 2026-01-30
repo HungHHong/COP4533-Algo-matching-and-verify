@@ -1,11 +1,12 @@
 # Binaries
 bin/
-*.out
+
 
 # Temporary files
 in.txt
 out.txt
 output.out
+match.out
 
 # Task C generated data
 data/*.csv

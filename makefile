@@ -58,3 +58,8 @@ scale-verifier: all
 		./$(MATCHER) < in.txt > out.txt; \
 		cat in.txt out.txt | /usr/bin/time -f "$$n,%e" ./$(VERIFIER) > /dev/null 2>> verifier_times.csv; \
 	done
+
+
+## Run Unit test
+test: all
+	./tests/run_unit_tests.sh
