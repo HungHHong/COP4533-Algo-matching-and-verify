@@ -1,13 +1,8 @@
 #include <bits/stdc++.h>
+#include "common.hpp"
 //#include "matcher.cpp"
 using namespace std;
 
-//Duplicate struct def from matcher.cpp
-struct MatchResult {
-    vector<vector<int>> hospPref;
-    vector<vector<int>> studentRank;
-    map<int,int> match; // hospital -> student
-};
 
 int verifier() {
 

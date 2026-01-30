@@ -1,11 +1,9 @@
 #include <bits/stdc++.h>
+#include "common.hpp"
+
 using namespace std;
 
-struct MatchResult {
-    vector<vector<int>> hospPref;
-    vector<vector<int>> studentRank;
-    map<int,int> match; // hospital -> student
-};
+
 
 tuple<vector<vector<int>>,vector<vector<int>>> readInput(){
 
