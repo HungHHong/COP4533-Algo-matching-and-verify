@@ -23,7 +23,7 @@ $(GEN): $(SRC_DIR)/gen.cpp | $(BIN_DIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
 
 clean:
-	rm -rf $(BIN_DIR) *.out output.out in.txt out.txt matcher_times.csv verifier_times.csv
+	rm -rf $(BIN_DIR) *.out in.txt out.txt matcher_times.csv verifier_times.csv result/match.out
 
 .PHONY: all clean example check gen taskc
 
@@ -49,7 +49,7 @@ scale-verifier: all
 ## extra targets
 # Build and run matcher on the example input
 example: all
-	./$(MATCHER) < data/example.in > output.out
+	./$(MATCHER) < data/example.in > result/match.out
 
 # Build and run verifier on example output
 check: all
