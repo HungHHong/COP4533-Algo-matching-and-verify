@@ -39,12 +39,12 @@ scale-matcher: all
 scale-verifier: all
 	@echo "n,time" > verifier_times.csv
 	@for n in 1 2 4 8 16 32 64 128 256 512; do \
-		echo "Running verifier for n=$$n (no stdin input)"; \
+		echo "Running verifier for n=$$n"; \
 		./$(GEN) $$n > in.txt; \
 		./$(MATCHER) < in.txt > out.txt; \
-		cat in.txt out.txt | /usr/bin/time -f "$$n,%e" ./$(VERIFIER) > /dev/null 2>> verifier_times.csv; \ 
-		
+		cat in.txt out.txt | /usr/bin/time -f "$$n,%e" ./$(VERIFIER) > /dev/null 2>> verifier_times.csv; \
 	done
+
 
 ## extra targets
 # Build and run matcher on the example input

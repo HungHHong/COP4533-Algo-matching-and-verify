@@ -5,10 +5,54 @@
 //#include "matcher.cpp"
 using namespace std;
 
+// reads:
+// n
+// n lines hospital prefs
+// n lines student prefs
+// n lines matching: "hospital student"
+MatchResult readInput(){
+
+    MatchResult res;
+
+    // 1. read n
+    int n;
+    if (!(cin >> n)) return res; // base: do nothing if empty input
+
+    // 2. read hospital prefs list
+    // hospPref[h][k] = kth student on hospital h's list (1 index)
+    res.hospPref.assign(n + 1, vector<int>(n + 1, 0));
+    for (int h = 1; h <= n; h++) {
+        for (int k = 1; k <= n; k++) {
+            cin >> res.hospPref[h][k];
+        }
+    }
+
+    // 3. read student prefs
+    // compare if s have an like h more than h'
+    // studentRank[s][h] = position (1..n) of hospital h in student s preference list
+    res.studentRank.assign(n + 1, vector<int>(n + 1, 0));
+    for (int s = 1; s <= n; s++) {
+        for (int k = 1; k <= n; k++) {
+            int h;
+            cin >> h;
+            res.studentRank[s][h] = k;
+        }
+    }
+
+    // 4. read matching output (n lines)
+    // match[h] = student matched to hospital h
+    for (int i = 0; i < n; i++) {
+        int h, s;
+        if (!(cin >> h >> s)) break;
+        res.match[h] = s;
+    }
+
+    return res;
+}
 
 int verifier() {
 
-    MatchResult res;
+    MatchResult res = readInput();
 
     auto start = chrono::high_resolution_clock::now();
 
@@ -16,11 +60,37 @@ int verifier() {
     auto& studentRank = res.studentRank;
     auto& check = res.match;
 
+    //Checks for empty input
+    if (hospPref.size() <= 1) {
+        cout << "INVALID due to empty input" << endl;
+        return 0;
+    }
+
+    int n = (int)hospPref.size() - 1;
+
+    //Checks if matching size is correct
+    if ((int)check.size() != n) {
+        cout << "INVALID due to wrong number of matches" << endl;
+        return 0;
+    }
+
     set<int> h;
     set<int> s;
 
     //Checks for no duplicates
     for (const auto& pair : check) {
+
+        //Checks if hospital in valid range
+        if(pair.first < 1 || pair.first > n){
+            cout << "INVALID due to hospital id out of range " << pair.first << endl;
+            return 0;
+        }
+
+        //Checks if student in valid range
+        if(pair.second < 1 || pair.second > n){
+            cout << "INVALID due to student id out of range " << pair.second << endl;
+            return 0;
+        }
 
         //Checks if hosptial has a duplicate
         if(h.find(pair.first)!= h.end()){
@@ -42,8 +112,7 @@ int verifier() {
     }
 
     //Checks if all students and all hospitals are in list
-    int size = check.size();
-
+    int size = n;
 
     for(int i=1; i<=size; i++){
 
@@ -59,8 +128,6 @@ int verifier() {
             return 0;
         }
     }
-
-    
 
     //Confirm there is stability, no blocking pair
 
@@ -84,7 +151,7 @@ int verifier() {
 
             //Checks if hospital prefers them over currently mactehd hospital
             if (studentRank[s][h] < studentRank[s][currentHospital]) {
-                cout << "INVALID due to blocking pair with hospital " 
+                cout << "INVALID due to blocking pair with hospital "
                     << h << " and student " << s << "\n";
 
                 return 0;
@@ -98,8 +165,9 @@ int verifier() {
 
     auto end = chrono::high_resolution_clock::now();
     chrono::duration<double> elapsed = end - start;
-    
-    cout << "Time taken: " << elapsed.count() << " seconds\n";
+
+    //Print time to stderr so it doesn't mess up autograder output
+    cerr << "Time taken: " << elapsed.count() << " seconds\n";
 
     return 0;
 }
