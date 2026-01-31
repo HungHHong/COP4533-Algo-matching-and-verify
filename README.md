@@ -65,8 +65,8 @@ make scale-verifier
 We analyzed the performance of the Matcher and Verifier by measuring execution time against the number of participants ($n$).
 
 ---
-![Time VS Data Graph For Matcher Function](read_me_files/image.png)
-![Time VS Data Graph For Verifier Function](read_me_files/image2.png)
+![Time VS Data Graph For Matcher Function](read_me_files/matcher.png)
+![Time VS Data Graph For Verifier Function](read_me_files/verifier.png)
 
 From the graphs above, we can see that as the number of hospitals and students increases, the running time of the algorithm seems to grow quadratically. This means that the functions we wrote for both the matcher and verifier run in $O(n^2)$ time complexity. By looking at the algorithm this makes sense as we have 2 different for-loops, that at worst check every single element in both preference lists which would be $O(n \cdot n)=O(n^2)$. Overall, the graphs are a great representation of the time complexity of our algorithms. 
 
