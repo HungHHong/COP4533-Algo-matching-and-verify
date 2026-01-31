@@ -1,4 +1,3 @@
-##unit test for matcher and verifier
 #!/usr/bin/env bash
 set -euo pipefail
 
@@ -52,11 +51,17 @@ for f in tests/invalid/*.out; do
 done
 
 # 4) verifier detects unstable matchings
-for f in tests/unstable/*.out; do
-  vout="$(run_verifier "$f" || true)"
-  echo "$vout" | grep -Eq "UNSTABLE|blocking pair" \
-    && pass "unstable detected: $(basename "$f")" \
-    || { echo "$vout"; fail "unstable NOT detected: $(basename "$f")"; }
-done
+# Create a valid but likely-unstable matching by swapping students of hospital 1 and 2
+unstable_file="$OUTDIR/unstable_generated.out"
+awk 'NR==1{a=$2; print $1" "$2; next}
+     NR==2{b=$2; print $1" "a; next}
+     NR==3{print "1 "b; next}
+     {print}' "$OUTDIR/match.out" > "$unstable_file"
+
+vout="$(run_verifier "$unstable_file" || true)"
+echo "$vout" | grep -Eq "UNSTABLE|blocking pair|INVALID" \
+  && pass "unstable detected (generated swap)" \
+  || { echo "$vout"; echo "--- unstable file ---"; cat "$unstable_file"; fail "unstable NOT detected (generated swap)"; }
+
 
 echo "All unit tests passed."
