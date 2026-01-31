@@ -33,12 +33,12 @@ clean:
 ## Part A & B: Build and run matcher and verifier on example input
 ## Build and run matcher on the example input
 example: all
-	./$(MATCHER) < data/example.in > result/match.out
+	@./$(MATCHER) < data/example.in > result/match.out
 
 # Build and run verifier on example output
 check: all
-	./$(MATCHER) < data/example.in > result/match.out
-	( cat data/example.in; echo; cat result/match.out ) | ./$(VERIFIER)
+	@./$(MATCHER) < data/example.in > result/match.out
+	@( cat data/example.in; echo; cat result/match.out ) | ./$(VERIFIER)
 
 
 # Part C: Generate inputs and collect matcher, verifier timing data
