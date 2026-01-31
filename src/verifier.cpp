@@ -10,37 +10,41 @@ using namespace std;
 // n lines hospital prefs
 // n lines student prefs
 // n lines matching: "hospital student"
-MatchResult readInput(){
-
+MatchResult readInput() {
     MatchResult res;
 
-    // 1. read n
     int n;
-    if (!(cin >> n)) return res; // base: do nothing if empty input
+    if (!(cin >> n)) return res;
 
-    // 2. read hospital prefs list
-    // hospPref[h][k] = kth student on hospital h's list (1 index)
+    if (n <= 0) {
+        // Keep res empty; verifier() will treat as invalid/empty input
+        return res;
+    }
+
     res.hospPref.assign(n + 1, vector<int>(n + 1, 0));
     for (int h = 1; h <= n; h++) {
         for (int k = 1; k <= n; k++) {
-            cin >> res.hospPref[h][k];
+            if (!(cin >> res.hospPref[h][k])) {
+                // Mark as empty/invalid by clearing
+                res.hospPref.clear();
+                return res;
+            }
         }
     }
 
-    // 3. read student prefs
-    // compare if s have an like h more than h'
-    // studentRank[s][h] = position (1..n) of hospital h in student s preference list
     res.studentRank.assign(n + 1, vector<int>(n + 1, 0));
     for (int s = 1; s <= n; s++) {
         for (int k = 1; k <= n; k++) {
             int h;
-            cin >> h;
+            if (!(cin >> h)) {
+                res.hospPref.clear();
+                res.studentRank.clear();
+                return res;
+            }
             res.studentRank[s][h] = k;
         }
     }
 
-    // 4. read matching output (n lines)
-    // match[h] = student matched to hospital h
     for (int i = 0; i < n; i++) {
         int h, s;
         if (!(cin >> h >> s)) break;
@@ -49,6 +53,7 @@ MatchResult readInput(){
 
     return res;
 }
+
 
 int verifier() {
 
@@ -61,8 +66,8 @@ int verifier() {
     auto& check = res.match;
 
     //Checks for empty input
-    if (hospPref.size() <= 1) {
-        cout << "INVALID due to empty input" << endl;
+    if (hospPref.size() <= 1 || studentRank.size() <= 1) {
+        cout << "INVALID due to empty or malformed input" << endl;
         return 0;
     }
 

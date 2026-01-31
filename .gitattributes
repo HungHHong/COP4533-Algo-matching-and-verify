@@ -1,0 +1,3 @@
+cat > .gitattributes <<'EOF'
+*.sh text eol=lf
+EOF

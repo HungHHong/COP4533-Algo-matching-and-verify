@@ -4,39 +4,43 @@
 
 using namespace std;
 
-tuple<vector<vector<int>>,vector<vector<int>>> readInput(){
-
-    // 1. read n
+tuple<vector<vector<int>>, vector<vector<int>>> readInput() {
     int n;
-    if (!(cin >> n)) return {}; // base: do nothing if n = 0
+    // validating input 
+    // Empty file / missing n
+    if (!(cin >> n)) return {};
 
-    // 2. read hospital prefs list
-    // hospPref[h][k] = kth student on hospital h's list (1 index)
-    vector<vector<int>> hospPref(n + 1, vector<int>(n + 1));
+    // reject non-positive n
+    if (n <= 0) {
+        cerr << "ERROR: invalid n\n";
+        return {};
+    }
+
+    // 2) read hospital prefs list
+    vector<vector<int>> hospPref(n + 1, vector<int>(n + 1, 0));
     for (int h = 1; h <= n; h++) {
         for (int k = 1; k <= n; k++) {
-            // edge case: Ensure input file has spaces between integers
-            if (!(cin >> hospPref[h][k])) break; 
+            if (!(cin >> hospPref[h][k])) {
+                cerr << "ERROR: invalid input (missing hospital preferences)\n";
+                return {};
+            }
         }
     }
 
-    // 3. read student prefs
-    // compare if s have an like h more than h'
-    // studentRank[s][h] = position (1..n) of hospital h in student s preference list
+    // 3) read student prefs -> build rank table
     vector<vector<int>> studentRank(n + 1, vector<int>(n + 1, 0));
     for (int s = 1; s <= n; s++) {
         for (int k = 1; k <= n; k++) {
             int h;
-            if (!(cin >> h)) break;
+            if (!(cin >> h)) {
+                cerr << "ERROR: invalid input (missing student preferences)\n";
+                return {};
+            }
             studentRank[s][h] = k;
         }
     }
-    
-    // Tuple in which first value is hosp pref and second is stud pref.
-    tuple<vector<vector<int>>,vector<vector<int>>> ans(hospPref,studentRank);
 
-    return ans;
-
+    return {hospPref, studentRank};
 }
 
 MatchResult matcher() {
